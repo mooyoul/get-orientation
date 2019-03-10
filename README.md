@@ -21,13 +21,13 @@ https://mooyoul.github.io/get-orientation/
 
 ## Why?
 
-![missing auto rotation](/docs/why-1.png)
+![adaption stats of CSS3 Image Orientation](/docs/why-2.png)
 
 Most Browsers don't rotate images automatically.
 
 Hmm... How about adaption stats of CSS3 Image Orientation?
 
-![adaption stats of CSS3 Image Orientation](/docs/why-2.png)
+![missing auto rotation](/docs/why-1.png)
 
 Well. Good luck. 
 
