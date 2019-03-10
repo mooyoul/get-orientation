@@ -62,17 +62,23 @@
 
     .image-placeholder-inner {
       position: absolute;
-      width: 100%;
+      width: 70%;
+      height: 70%;
       top: 50%;
       left: 50%;
       transform: translate3d(-50%, -50%, 0);
     }
 
     .image-placeholder img {
-      max-width: 70%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
       transform-origin: center center;
     }
 
+    #feature-detection {
+      opacity: 0;
+    }
 
     @media (min-width: 640px) {
       h1 {
@@ -100,6 +106,7 @@
 </head>
 <body>
 <a class="github-fork-ribbon" href="http://github.com/mooyoul/get-image-orientation" title="Fork me on GitHub" data-ribbon="Fork me on GitHub">Fork me on GitHub</a>
+<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4QBiRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAUAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAEAAAITAAMAAAABAAEAAAAAAAAAAAABAAAAAQAAAAEAAAAB/9sAQwACAQECAQECAgICAgICAgMFAwMDAwMGBAQDBQcGBwcHBgcHCAkLCQgICggHBwoNCgoLDAwMDAcJDg8NDA4LDAwM/9sAQwECAgIDAwMGAwMGDAgHCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM/8IAEQgAAQACAwERAAIRAQMRAf/EABQAAQAAAAAAAAAAAAAAAAAAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAB/D//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Af//Z" id="feature-detection">
 <h1>get-orientation</h1>
 <div class="input">
   <form action="fake" id="dropzone" class="dropzone">
@@ -167,12 +174,17 @@
     });
 
     getOrientation(file).then((v) => {
-      const resultText = v.toString() + " - " + OrientationTexts[v - 1];
+      const nativelySupportRotation = document.querySelector("#feature-detection").naturalHeight === 2;
 
-      document.querySelector("#result-text").innerText = resultText;
-      const rotatedImage = document.querySelector("#image-rotated");
-      rotatedImage.style.transform = OrientationTransforms[v - 1];
+      document.querySelector("#result-text").innerHTML = [
+        "Browser supports auto-rotation? " + (nativelySupportRotation ? "Yes" : "No"),
+        "Orientation: " + v.toString() + " - " + OrientationTexts[v - 1],
+      ].join("<br>");
 
+      if (!nativelySupportRotation) {
+        const rotatedImage = document.querySelector("#image-rotated");
+        rotatedImage.style.transform = OrientationTransforms[v - 1];
+      }
     }).catch((e) => {
       console.error(e);
     });
