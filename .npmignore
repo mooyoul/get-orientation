@@ -4,11 +4,14 @@ test.ts
 tsconfig*.json
 tslint.json
 rollup.config.js
+intern.json
 .travis.yml
 .nyc_output
 .rpt2_cache
 coverage
 test*
 spec*
+*.spec.*
+*.test.*
 docs/
 fixtures/
