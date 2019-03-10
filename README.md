@@ -1,7 +1,7 @@
 # get-orientation
 
-[![Build Status](https://travis-ci.org/mooyoul/get-image-orientation.svg?branch=master)](https://travis-ci.org/mooyoul/get-image-orientation)
-![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/get-image-orientation.svg)
+[![Build Status](https://travis-ci.org/mooyoul/get-orientation.svg?branch=master)](https://travis-ci.org/mooyoul/get-image-orientation)
+![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/get-orientation.svg)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg)](http://mooyoul.mit-license.org/)
 
 Read Orientation tag value from Image. Supports both Browser and Server (Node.js) environment.
