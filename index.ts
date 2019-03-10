@@ -7,7 +7,7 @@ const noop = () => { /* no op */ };
 
 export { Orientation };
 
-// @see
+// @see https://www.exif.org/Exif2-2.PDF
 export class EXIFOrientationParser extends StreamParserWritable {
   constructor() {
     super();
