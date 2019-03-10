@@ -37,12 +37,24 @@ export class EXIFOrientationParser extends StreamParserWritable {
   private onJPEGMarker(buf: Buffer) {
     const marker = buf.readUInt16BE(0);
 
-    if (marker === 0xffe1) { // APP1 Marker - EXIF
-      // Skip EXIF length and EXIF ID block. we don't need them
-      // 2 bytes = EXIF Length
-      // 6 bytes = EXIF ID Code (4 byte signature + 2 byte padding)
-      this._skipBytes(8, () => {
-        this._bytes(8, this.onTIFFHeader.bind(this));
+    if (marker === 0xffe1) { // APP1 Marker - EXIF, or Adobe XMP
+      // We must verify that marker segment to avoid conflict.
+      // Adobe XMP uses APP1 space too!
+      this._bytes(8, (bufMarkerHead: Buffer) => {
+        const isEXIF = bufMarkerHead.readUInt16BE(2) === 0x4578
+          && bufMarkerHead.readUInt16BE(4) === 0x6966
+          && bufMarkerHead.readUInt16BE(6) === 0x0000;
+
+        if (isEXIF) {
+          this._bytes(8, this.onTIFFHeader.bind(this));
+        } else {
+          const size = bufMarkerHead.readUInt16BE(0);
+          const remaining = size - 6;
+
+          this._skipBytes(remaining, () => {
+            this._bytes(2, this.onJPEGMarker.bind(this));
+          });
+        }
       });
     } else if (0xffe0 <= marker && marker <= 0xffef) { // Other JPEG application markers
       // e.g. APP0 Marker (JFIF), APP2 Marker (FlashFix Extension, ICC Color Profile), Photoshop IRB...
