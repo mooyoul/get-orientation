@@ -1,6 +1,6 @@
 {
   "name": "get-orientation",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Get orientation from image file",
   "main": "index.js",
   "types": "index.d.ts",
