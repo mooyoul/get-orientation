@@ -1,0 +1,18 @@
+{
+  "proxyPort": 9000,
+  "functionalSuites": "test.*.js",
+  "environments": [
+    {
+      "browserName": "chrome",
+      "goog:chromeOptions": {
+        "args": [
+          "headless",
+          "disable-gpu",
+          "no-sandbox",
+          "disable-dev-shm-usage"
+        ]
+      },
+      "fixSessionCapabilities": false
+    }
+  ]
+}

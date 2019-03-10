@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form>
+  <label>
+    Select file:
+    <input type="file" id="input" onchange="onFileChange(this.files)">
+  </label>
+</form>
+<p id="orientation"></p>
+<script type="text/javascript" src="browser.js"></script>
+<script type="text/javascript">
+async function onFileChange(files) {
+  if (files.length === 0) {
+    console.log("no files selected");
+    return;
+  }
+
+
+  const [ file ] = files;
+
+  let el;
+  el = document.querySelector("#orientation");
+  el.innerText = await getOrientation.getOrientation(file);
+
+  el = null;
+}
+</script>
+</body>
+</html>

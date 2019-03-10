@@ -73,3 +73,6 @@ base.js.map
 stream-parser.d.ts
 stream-parser.js
 stream-parser.js.map
+browser.d.ts
+browser.js
+browser.js.map
