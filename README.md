@@ -7,7 +7,9 @@
 Get orientation from EXIF of image file. Supports both Browser and Server (Node.js) environment.
 
 `get-orientation` has fast, efficient built-in EXIF parser. 
-Built-in EXIF Parser is stream-based, and uses small memory footprint.     
+Built-in EXIF Parser is stream-based, and uses small memory footprint.
+
+Also, Compatibility is the key. `get-orientation` was tested with 50+ test images.
 
 ## Sponsor
 
