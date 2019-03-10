@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>get-orientation</title>
+  <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1,minimum-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.2/gh-fork-ribbon.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" type="text/css">
+
+  <style type="text/css">
+    * { box-sizing: border-box; }
+
+    body {
+      background-color: teal;
+      color: #fff;
+      transition: background-color ease 0.3s, color ease 0.3s;
+      text-align: center;
+      padding-bottom: 80px;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin: 48px 0 24px;
+    }
+
+    h2 {
+      font-size: 64px;
+      margin: 0 0 40px;
+    }
+
+    .btn-default {
+      border: 0 none;
+      padding: 0 32px;
+      font-size: 32px;
+      line-height: 64px;
+    }
+
+    #dropzone {
+      width: 80%;
+      max-width: 1140px;
+      margin: 0 auto;
+      border: 2px dashed dodgerblue;
+      color: #333;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .row {
+      margin-bottom: 40px;
+    }
+
+
+    .image-placeholder {
+      position: relative;
+      padding: 50% 0;
+      box-sizing: border-box;
+      background-color: #fff;
+    }
+
+    .image-placeholder-inner {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+    }
+
+    .image-placeholder img {
+      max-width: 70%;
+      transform-origin: center center;
+    }
+
+
+    @media (min-width: 640px) {
+      h1 {
+        font-size: 96px;
+        margin: 48px 0 24px;
+      }
+      h2 {
+        font-size: 128px;
+        margin: 0 0 40px;
+      }
+
+      .row {
+        display: flex;
+        max-width: 960px;
+        margin: 0 auto 40px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+
+      .col {
+        width: 48%;
+      }
+    }
+  </style>
+</head>
+<body>
+<a class="github-fork-ribbon" href="http://github.com/mooyoul/get-image-orientation" title="Fork me on GitHub" data-ribbon="Fork me on GitHub">Fork me on GitHub</a>
+<h1>get-orientation</h1>
+<div class="input">
+  <form action="fake" id="dropzone" class="dropzone">
+    <div class="fallback">
+      <input name="file" type="file" accept="image/*">
+    </div>
+  </form>
+</div>
+<div class="result hide">
+  <h3 id="result-text"></h3>
+  <div class="row">
+    <div class="col">
+      <h4>Original Image</h4>
+      <div class="image-placeholder">
+        <div class="image-placeholder-inner">
+          <img class="preview-image">
+        </div>
+      </div>
+    </div>
+    <div class="col">
+      <h4>Rotated Image</h4>
+      <div class="image-placeholder">
+        <div class="image-placeholder-inner">
+          <img class="preview-image" id="image-rotated">
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn-default" id="reset-button" onclick="reset()">Try Again</button>
+</div>
+<script type="text/javascript" src="https://unpkg.com/get-orientation"></script>
+<script type="text/javascript">
+  const OrientationTexts = [
+    "Horizontal (Default)",
+    "Mirror Horizontal",
+    "Rotate 180",
+    "Mirror vertical",
+    "Mirror horizontal and rotate 270 CW",
+    "Rotate 90 CW",
+    "Mirror horizontal and rotate 90 CW",
+    "Rotate 270 CW",
+  ];
+  const OrientationTransforms = [
+    "none",
+    "rotateY(180deg)",
+    "rotateZ(180deg)",
+    "rotateX(180deg)",
+    "rotateZ(270deg) rotateY(180deg)",
+    "rotateZ(90deg)",
+    "rotateZ(90deg) rotateY(180deg)",
+    "rotateZ(270deg)",
+  ];
+
+  const { getOrientation } = window.getOrientation;
+
+  let blobUrl = null;
+
+  function onFileSelected(file) {
+    blobUrl = URL.createObjectURL(file);
+
+    document.querySelector(".input").classList.add("hide");
+    document.querySelector(".result").classList.remove("hide");
+    Array.prototype.forEach.call(document.querySelectorAll(".preview-image"), (el) => {
+      el.src = blobUrl;
+    });
+
+    getOrientation(file).then((v) => {
+      const resultText = v.toString() + " - " + OrientationTexts[v - 1];
+
+      document.querySelector("#result-text").innerText = resultText;
+      const rotatedImage = document.querySelector("#image-rotated");
+      rotatedImage.style.transform = OrientationTransforms[v - 1];
+
+    }).catch((e) => {
+      console.error(e);
+    });
+
+  }
+
+  function reset() {
+    if (blobUrl) {
+      URL.revokeObjectURL(blobUrl);
+      blobUrl = null;
+    }
+    document.querySelector("#result-text").innerText = "Well...";
+    document.querySelector(".result").classList.add("hide");
+    document.querySelector(".input").classList.remove("hide");
+    const rotatedImage = document.querySelector("#image-rotated");
+    rotatedImage.style.transform = null;
+
+    Array.prototype.forEach.call(document.querySelectorAll("img"), (el) => {
+      el.src = "";
+    });
+  }
+</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
+<script type="text/javascript">
+  Dropzone.autoDiscover = false;
+  const dropzone = new Dropzone("#dropzone", {
+    maxFiles: 1,
+    autoQueue: false,
+    autoProcessQueue: false,
+    createImageThumbnails: false,
+    acceptedFiles: "image/*",
+  });
+
+  dropzone.on("addedfile", (file) => {
+    onFileSelected(file);
+    dropzone.removeFile(file);
+  });
+</script>
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-83917556-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>
