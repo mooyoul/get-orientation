@@ -1,0 +1,51 @@
+{
+  "name": "get-orientation",
+  "version": "0.1.0",
+  "description": "Get orientation from image file",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {
+    "stream-parser": "^0.3.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/debug": "^4.1.2",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^8.10.43",
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.13.1",
+    "typescript": "^3.3.3333"
+  },
+  "scripts": {
+    "clean": "ls *.d.ts *.js *.map | grep -E '(index|base|stream-parser)' | xargs rm -f",
+    "build": "npm run clean && tsc",
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run clean && npm run build && npm run seed",
+    "test": "npm run test:node",
+    "seed": "test -e fixtures/exif-examples || git clone https://github.com/ianare/exif-samples.git fixtures/exif-examples --depth=1",
+    "test:node": "mocha -r ts-node/register index.spec.ts",
+    "posttest": "npm run clean",
+    "lint": "tslint -c tslint.json index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mooyoul/get-orientation.git"
+  },
+  "keywords": [
+    "image",
+    "exif",
+    "jpeg",
+    "jpg",
+    "tiff",
+    "image-orientation",
+    "orientation"
+  ],
+  "author": "MooYeol Prescott Lee <mooyoul@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mooyoul/get-orientation/issues"
+  },
+  "homepage": "https://github.com/mooyoul/get-orientation#readme"
+}

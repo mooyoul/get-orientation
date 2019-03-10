@@ -1,0 +1,14 @@
+.idea
+index.ts
+test.ts
+tsconfig*.json
+tslint.json
+rollup.config.js
+.travis.yml
+.nyc_output
+.rpt2_cache
+coverage
+test*
+spec*
+docs/
+fixtures/
