@@ -19,6 +19,22 @@ Also, Compatibility is the key. `get-orientation` was tested with 50+ test image
 
 https://mooyoul.github.io/get-orientation/
 
+## Why?
+
+![missing auto rotation](/docs/why-1.png)
+
+Most Browsers don't rotate images automatically.
+
+Hmm... How about adaption stats of CSS3 Image Orientation?
+
+![adaption stats of CSS3 Image Orientation](/docs/why-2.png)
+
+Well. Good luck. 
+
+To rotate image by its orientation, you'll have to make a EXIF parser or install heavy EXIF related libraries.
+
+That's why i made this.           
+
 ## Install
 
 #### from NPM
