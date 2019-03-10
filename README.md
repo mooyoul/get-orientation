@@ -1,6 +1,6 @@
 # get-orientation
 
-[![Build Status](https://travis-ci.org/mooyoul/get-orientation.svg?branch=master)](https://travis-ci.org/mooyoul/get-image-orientation)
+[![Build Status](https://travis-ci.org/mooyoul/get-orientation.svg?branch=master)](https://travis-ci.org/mooyoul/get-orientation)
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/get-orientation.svg)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg)](http://mooyoul.mit-license.org/)
 
