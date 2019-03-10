@@ -4,7 +4,10 @@
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/get-orientation.svg)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg)](http://mooyoul.mit-license.org/)
 
-Read Orientation tag value from Image. Supports both Browser and Server (Node.js) environment.
+Get orientation from EXIF of image file. Supports both Browser and Server (Node.js) environment.
+
+`get-orientation` has fast, efficient built-in EXIF parser. 
+Built-in EXIF Parser is stream-based, and uses small memory footprint.     
 
 ## Sponsor
 
