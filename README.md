@@ -17,6 +17,8 @@ Also, Compatibility is the key. `get-orientation` was tested with 50+ test image
 
 ## Demo
 
+https://mooyoul.github.io/get-orientation/
+
 ## Install
 
 #### from NPM
@@ -57,7 +59,7 @@ const orientation = await getOrientation(response.data);
 
 
 // using Stream interface directly
-import { EXIFOrientationParser } from "get-orientation";
+import { EXIFOrientationParser, Orientation } from "get-orientation";
 
 const parser = new EXIFOrientationParser();
 parser.on("orientation", (orientation: Orientation) => {
@@ -66,6 +68,18 @@ parser.on("orientation", (orientation: Orientation) => {
 
 fs.createReadStream(imageFilePath).pipe(parser);
 ```
+
+#### Browser
+
+```javascript
+import { getOrientation } from "get-orientation";
+
+async function onFileChanged() {
+  const orientation = await getOrientation(fileInput.files[0]);
+  // do stuff...
+}
+```
+
  
 ## API (Node.js)
 
@@ -91,6 +105,14 @@ For example, Using non-EXIF images, non-JPEG images as input won't emit a `orien
 emitted after parsing orientation.
 
 
+## API (Browser)
+
+### `getOrientation(input: ArrayBuffer | Blob | File)` => `Promise<Orientation>` 
+
+returns Orientation of given image.
+
+If image is non-jpeg image, or non-image, `getOrientation` will return Orientation.TOP_LEFT (Horizontal - Default value).
+
 ## Types
 
 ### Orientation
@@ -114,6 +136,11 @@ enum Orientation {
 #### 0.1.0
 
 - Initial Release
+
+#### 1.0.0
+
+- Fixed JPEG APP1 Marker Conflict issue
+- Support Browser Environment
 
 
 ## Testing
