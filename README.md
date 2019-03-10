@@ -46,7 +46,7 @@ const bufFile = fs.readFileSync(imageFilePath);
 const orientation = await getOrientation(bufFile);
 
 // using HTTP Response body as input
-import * as axios from "axios";
+import axios from "axios";
 const response = await axios({ url, responseType: "stream" });
 const orientation = await getOrientation(response.data);
 
@@ -55,7 +55,9 @@ const orientation = await getOrientation(response.data);
 import { EXIFOrientationParser } from "get-orientation";
 
 const parser = new EXIFOrientationParser();
-parser.on("orientation", console.log);
+parser.on("orientation", (orientation: Orientation) => {
+  console.log("got orientation: ", orientation);
+});
 
 fs.createReadStream(imageFilePath).pipe(parser);
 ```
@@ -66,11 +68,23 @@ fs.createReadStream(imageFilePath).pipe(parser);
 
 returns Orientation of given image.
 
-If image is non-jpeg image, or non-image, `getOrientation` will return Orientation.  
+If image is non-jpeg image, or non-image, `getOrientation` will return Orientation.TOP_LEFT (Horizontal - Default value).  
 
 ### `new EXIFOrientationParser(input: ArrayBuffer | File)` => `WritableStram`
 
-returns a parser stream instance that implements WritableStream interface. 
+returns a parser stream instance that implements WritableStream interface.
+
+Please note that EXIFOrientationParser won't emit any `orientation` event if stream doesn't have any Orientation tags.
+also, Stream will be closed without any errors.
+
+For example, Using non-EXIF images, non-JPEG images as input won't emit a `orientation` event.     
+
+#### Stream Events
+
+##### `orientation`
+
+emitted after parsing orientation.
+
 
 ## Types
 
