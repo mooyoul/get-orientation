@@ -6,9 +6,9 @@ node_js:
 addons:
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
+    - google-chrome-stable
 script:
 - npm run lint
 - npm test
@@ -19,7 +19,7 @@ deploy:
   email: mooyoul@gmail.com
   skip_cleanup: true
   api_key:
-    secure: eUDA3Um7ABvKpNqWDLOj3qjRY9FOutK1WkbqoNNJe2x8cQ5zKdEMPeWawvYA+7EKIOuG93ynXnqmXhFiHQmbA1uTz1TNCK5ZHJ4IqeEhw+zzG5Io+CbZXsmejk0isZVBRPmKGkmE0AEd02aDph8u6LTPZnkJbbzhI8d2hCBwxpY86CBTAVCbxAAVuQBpR4/7cRorw+FaEViwrQM1HiIGTMBUAi+V9YrV0BEqn/uyDIySPn28ble5ke64S72LfHfZDEyFoxR+MPxgjSaAfzrGXx2dg4UeFDZaf3g7ybau+26PFR05dOcc7NasmtY4dCsmUHwk5xG44fnjo2Qqepu4jVPH9T76SPtxfX425yO0J/vkW4qDn5usdl3wgNAGCaq6f5ht4NGLlsxrr3xw4CLW1g0a4LHS9xA3m99wR2/E+9tYUO2Y/yTZYcm7vUeWF3CKV3n5st/NQ7fT23kTfcLI+0nLc9h9QTfansqq37ozoVNyM58v1sRINYojTCzdSeI8HpOykAPYGl2JOIDP3Ziax1HgDPQ++V77NQ9TFDn2kg8xc51r2nhv7KqmiaLenTlRgcWEAAJPojJZz7CtPlvl+Eq3PVGzOZhApFRLYeaHn/PqfTuiZjwC5kERdEELyGezLK32qeOKXvpnKoOtDivkkWCVfyAso9if66guaFFsIU4=
+    secure: C56CEKPxJgSD4lrwcMUCgzZJWeYdV4kTSXYEi6HzmbAQwUhVkii4MARC+/FQzZPz8R7GhHBe89jWDb+CnAeB8sXw5ctUOeOuOoLT0mC9d17+Y2WpXHXP8a/mv2HnrD9CC9fQoqrrnaDCMPr1pIicrWfip5R2v0IoxtAkH6tiYB/FcEq/dsRvMnEZhVbBetMPhH3n//DMuIdslL4D7kHySJMojyHjEX9q5Cq8nlaj68rCdiD3ZppSYJA064Y8vLODxPZNHoj83NvkZ69CvFUcWJSPoPU3MD/ekFhMXxTN/UyAhTceTq9v8LKFx3Uly+3eJMmFdseAanO3wLcilHUvHm+RjjYeNItt7fpcKzSe7hJ7en0S2jDv2EPUiZaUe/xcSW3oriC53moNANeEaX4YH6vP7tcu8ojk6scm/pSbHgBcLtD2oKLQR2hS4T50Zo1+J16VVv+t3a6FYFwrt2ZBCbjcLG8v7BQlbbCLcan+ZBV3R9aes6rd6t6bWg5bgJEOPcLoGPazNHozoTDOautzqOOQXMHP1h+dD9pzVjlEueMm3tsm0ibWHHP1NWJv1xXq69VhfAB3M4sOiE9e3RUFuMeq/cBBOZH6iXF8Uhdt2Q2O89SiQer4J3DSbNv/nDF+27o6IgsuAIjzjEBSCXpNLfa7YzOTjdjF5xEaiVz6ILQ=
   on:
     tags: true
     repo: mooyoul/get-orientation
