@@ -105,7 +105,7 @@ returns Orientation of given image.
 
 If image is non-jpeg image, or non-image, `getOrientation` will return Orientation.TOP_LEFT (Horizontal - Default value).  
 
-### `new EXIFOrientationParser(input: ArrayBuffer | File)` => `WritableStram`
+### `new EXIFOrientationParser()` => `WritableStream`
 
 returns a parser stream instance that implements WritableStream interface.
 
