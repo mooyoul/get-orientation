@@ -5,6 +5,10 @@ export { Orientation };
 const fileReaderMap = new WeakMap<Blob, FileReader>();
 
 export async function getOrientation(input: ArrayBuffer | File | Blob) {
+  if (!(input instanceof ArrayBuffer || input instanceof Blob)) {
+    throw new TypeError("Unexpected input type");
+  }
+
   let offset = 0;
   const totalBytes = getSize(input);
 

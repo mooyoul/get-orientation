@@ -175,6 +175,8 @@ export function getOrientation(image: Buffer | ReadableStream) {
       parser.end(image);
     } else if (image instanceof ReadableStream) {
       image.pipe(parser);
+    } else {
+      throw new TypeError("Unexpected input type");
     }
   });
 }
