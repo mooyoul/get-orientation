@@ -189,8 +189,8 @@
         function cleanup() {
           image.removeEventListener("load", onLoad);
           image.removeEventListener("error", onError);
-          // image.remove();
-          // image = null;
+          image.remove();
+          image = null;
         }
       });
     }
