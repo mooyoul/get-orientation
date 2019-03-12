@@ -158,6 +158,10 @@ enum Orientation {
 - Fixed JPEG APP1 Marker Conflict issue
 - Support Browser Environment
 
+#### 1.0.1
+
+- Added type guard for non-typescript environment
+
 
 ## Testing
 
