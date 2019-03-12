@@ -62,8 +62,8 @@
 
     .image-placeholder-inner {
       position: absolute;
-      width: 70%;
-      height: 70%;
+      width: 90%;
+      height: 90%;
       top: 50%;
       left: 50%;
       transform: translate3d(-50%, -50%, 0);
@@ -74,10 +74,6 @@
       height: 100%;
       object-fit: contain;
       transform-origin: center center;
-    }
-
-    #feature-detection {
-      opacity: 0;
     }
 
     @media (min-width: 640px) {
@@ -149,7 +145,7 @@
     { name: "Rotate 270 CW", transform: "rotateZ(270deg)" },
   ];
 
-  const { getOrientation } = window.getOrientation;
+  const { getOrientation, Orientation } = window.getOrientation;
 
   let blobUrl = null;
 
@@ -218,7 +214,8 @@
 
       if (!nativelySupportRotation) {
         const rotatedImage = document.querySelector("#image-rotated");
-        rotatedImage.style.transform = translation.transform;
+        // rotatedImage.style.transform = translation.transform;
+        return rotateImage(rotatedImage, detected);
       }
     }).catch((e) => {
       console.error(e);
@@ -239,6 +236,99 @@
     Array.prototype.forEach.call(document.querySelectorAll("img"), (el) => {
       el.removeAttribute("src");
     });
+  }
+
+  async function rotateImage(imageEl, orientation) {
+    if (!imageEl.complete) {
+      await new Promise((resolve, reject) => {
+        imageEl.addEventListener("load", onLoad);
+        imageEl.addEventListener("error", onError);
+
+        function onLoad() {
+          imageEl.removeEventListener("load", onLoad);
+          imageEl.removeEventListener("error", onError);
+          resolve();
+        }
+        function onError(e) {
+          imageEl.removeEventListener("load", onLoad);
+          imageEl.removeEventListener("error", onError);
+          reject(e);
+        }
+      });
+    }
+
+    const LONGEST_AXIS_SIZE = 960; // 960px
+
+    let canvas = document.createElement("canvas");
+    const { iw, ih } = orientation > 4 ?
+      { iw: imageEl.naturalHeight, ih: imageEl.naturalWidth } :
+      { iw: imageEl.naturalWidth, ih: imageEl.naturalHeight };
+
+    const ir = iw / ih;
+    if (iw >= ih) {
+      canvas.width = Math.min(LONGEST_AXIS_SIZE, iw);
+      canvas.height = Math.floor(canvas.width / ir);
+    } else {
+      canvas.height = Math.min(LONGEST_AXIS_SIZE, ih);
+      canvas.width = Math.floor(canvas.height * ir);
+    }
+
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    switch (orientation) {
+      case Orientation.TOP_LEFT: {
+        context.drawImage(imageEl, 0, 0, canvas.width, canvas.height);
+        break;
+      }
+      case Orientation.TOP_RIGHT: {
+        context.translate(canvas.width, 0);
+        context.scale(-1, 1);
+        context.drawImage(imageEl, 0, 0, canvas.width, canvas.height);
+        break;
+      }
+      case Orientation.BOTTOM_RIGHT: {
+        context.translate(canvas.width, canvas.height);
+        context.rotate(Math.PI);
+        context.drawImage(imageEl, 0, 0, canvas.width, canvas.height);
+        break;
+      }
+      case Orientation.BOTTOM_LEFT: {
+        context.translate(0, canvas.height);
+        context.scale(1, -1);
+        context.drawImage(imageEl, 0, 0, canvas.width, canvas.height);
+        break;
+      }
+      case Orientation.LEFT_TOP: {
+        context.translate(canvas.width, 0);
+        context.scale(-1, 1);
+        context.translate(canvas.width, 0);
+        context.rotate(90 * Math.PI / 180);
+        context.drawImage(imageEl, 0, 0, canvas.height, canvas.width);
+        break;
+      }
+      case Orientation.RIGHT_TOP: {
+        context.translate(canvas.width, 0);
+        context.rotate(90 * Math.PI / 180);
+        context.drawImage(imageEl, 0, 0, canvas.height, canvas.width);
+        break;
+      }
+      case Orientation.RIGHT_BOTTOM: {
+        context.translate(canvas.width, 0);
+        context.scale(-1, 1);
+        context.translate(0, canvas.height);
+        context.rotate(270 * Math.PI / 180);
+        context.drawImage(imageEl, 0, 0, canvas.height, canvas.width);
+        break;
+      }
+      case Orientation.LEFT_BOTTOM: {
+        context.translate(0, canvas.height);
+        context.rotate(270 * Math.PI / 180);
+        context.drawImage(imageEl, 0, 0, canvas.height, canvas.width);
+        break;
+      }
+    }
+
+    imageEl.src = canvas.toDataURL();
   }
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
