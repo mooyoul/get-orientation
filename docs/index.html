@@ -147,7 +147,7 @@
 
   const { getOrientation, Orientation } = window.getOrientation;
 
-  let blobUrl = null;
+  const disposeBag = [];
 
   const testAutoRotation = (() => {
     let cache = null;
@@ -193,7 +193,8 @@
   })();
 
   function onFileSelected(file) {
-    blobUrl = URL.createObjectURL(file);
+    const blobUrl = URL.createObjectURL(file);
+    disposeBag.push(blobUrl);
 
     Promise.all([
       getOrientation(file),
@@ -203,7 +204,7 @@
 
       document.querySelector(".input").classList.add("hide");
       document.querySelector(".result").classList.remove("hide");
-      Array.prototype.forEach.call(document.querySelectorAll(".preview-image"), (el) => {
+      Array.from(document.querySelectorAll(".preview-image")).forEach((el) => {
         el.src = blobUrl;
       });
 
@@ -223,19 +224,18 @@
   }
 
   function reset() {
-    if (blobUrl) {
-      URL.revokeObjectURL(blobUrl);
-      blobUrl = null;
-    }
     document.querySelector("#result-text").innerText = "Well...";
     document.querySelector(".result").classList.add("hide");
     document.querySelector(".input").classList.remove("hide");
-    const rotatedImage = document.querySelector("#image-rotated");
-    rotatedImage.style.transform = null;
 
-    Array.prototype.forEach.call(document.querySelectorAll("img"), (el) => {
-      el.removeAttribute("src");
+    Array.from(document.querySelectorAll(".preview-image")).forEach((el) => {
+      el.removeAttribute("src")
     });
+
+    let disposable;
+    while (disposable = disposeBag.pop()) {
+      URL.revokeObjectURL(disposable);
+    }
   }
 
   async function rotateImage(imageEl, orientation) {
@@ -328,7 +328,23 @@
       }
     }
 
-    imageEl.src = canvas.toDataURL();
+    const blobUrl = await new Promise((resolve, reject) => {
+      try {
+        if (canvas.toBlob) {
+          canvas.toBlob((blob) => {
+            resolve(URL.createObjectURL(blob));
+          });
+        } else {
+          resolve(canvas.toDataURL());
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+
+    disposeBag.push(blobUrl);
+
+    imageEl.src = blobUrl;
   }
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
