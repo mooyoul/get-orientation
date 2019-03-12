@@ -106,7 +106,6 @@
 </head>
 <body>
 <a class="github-fork-ribbon" href="http://github.com/mooyoul/get-image-orientation" title="Fork me on GitHub" data-ribbon="Fork me on GitHub">Fork me on GitHub</a>
-<img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4QBiRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAUAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAEAAAITAAMAAAABAAEAAAAAAAAAAAABAAAAAQAAAAEAAAAB/9sAQwACAQECAQECAgICAgICAgMFAwMDAwMGBAQDBQcGBwcHBgcHCAkLCQgICggHBwoNCgoLDAwMDAcJDg8NDA4LDAwM/9sAQwECAgIDAwMGAwMGDAgHCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM/8IAEQgAAQACAwERAAIRAQMRAf/EABQAAQAAAAAAAAAAAAAAAAAAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAB/D//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Af//Z" id="feature-detection">
 <h1>get-orientation</h1>
 <div class="input">
   <form action="fake" id="dropzone" class="dropzone">
@@ -139,56 +138,91 @@
 </div>
 <script type="text/javascript" src="https://unpkg.com/get-orientation"></script>
 <script type="text/javascript">
-  const OrientationTexts = [
-    "Horizontal (Default)",
-    "Mirror Horizontal",
-    "Rotate 180",
-    "Mirror vertical",
-    "Mirror horizontal and rotate 270 CW",
-    "Rotate 90 CW",
-    "Mirror horizontal and rotate 90 CW",
-    "Rotate 270 CW",
-  ];
-  const OrientationTransforms = [
-    "none",
-    "rotateY(180deg)",
-    "rotateZ(180deg)",
-    "rotateX(180deg)",
-    "rotateZ(270deg) rotateY(180deg)",
-    "rotateZ(90deg)",
-    "rotateZ(90deg) rotateY(180deg)",
-    "rotateZ(270deg)",
+  const Orientations = [
+    { name: "Horizontal (Default)", transform: "none" },
+    { name: "Mirror Horizontal", transform: "rotateY(180deg)" },
+    { name: "Rotate 180" , transform: "rotateZ(180deg)" },
+    { name: "Mirror vertical", transform: "rotateX(180deg)" },
+    { name: "Mirror horizontal and rotate 270 CW", transform: "rotateZ(270deg) rotateY(180deg)" },
+    { name: "Rotate 90 CW", transform: "rotateZ(90deg)" },
+    { name: "Mirror horizontal and rotate 90 CW", transform: "rotateZ(90deg) rotateY(180deg)" },
+    { name: "Rotate 270 CW", transform: "rotateZ(270deg)" },
   ];
 
   const { getOrientation } = window.getOrientation;
 
   let blobUrl = null;
 
+  const testAutoRotation = (() => {
+    let cache = null;
+
+    return () => {
+      if (cache !== null ) { return Promise.resolve(cache); }
+
+      return new Promise((resolve) => {
+        let image = document.createElement("img");
+        image.addEventListener("load", onLoad);
+        image.addEventListener("error", onError);
+        image.src = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4QBiRXhpZgAATU0AKgAAAAgABQESAAMAAAABAAUAAAEaAAUAAAABAAAASgEbAAUAAAABAAAAUgEoAAMAAAABAAEAAAITAAMAAAABAAEAAAAAAAAAAAABAAAAAQAAAAEAAAAB/9sAQwACAQECAQECAgICAgICAgMFAwMDAwMGBAQDBQcGBwcHBgcHCAkLCQgICggHBwoNCgoLDAwMDAcJDg8NDA4LDAwM/9sAQwECAgIDAwMGAwMGDAgHCAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM/8IAEQgAAQACAwERAAIRAQMRAf/EABQAAQAAAAAAAAAAAAAAAAAAAAn/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIQAxAAAAB/D//EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQIBAT8Af//EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQMBAT8Af//Z";
+        image.style.position = "absolute";
+        image.style.top = "-9999px";
+        image.style.opacity = "0";
+
+        document.body.appendChild(image);
+
+        if (image.complete) {
+          onLoad();
+        }
+
+        function onLoad() {
+          cache = image.naturalHeight === 2;
+          cleanup();
+          resolve(cache);
+        }
+
+        function onError(e) {
+          cache = false;
+          cleanup();
+          resolve(cache);
+        }
+
+        function cleanup() {
+          image.removeEventListener("load", onLoad);
+          image.removeEventListener("error", onError);
+          // image.remove();
+          // image = null;
+        }
+      });
+    }
+  })();
+
   function onFileSelected(file) {
     blobUrl = URL.createObjectURL(file);
 
-    document.querySelector(".input").classList.add("hide");
-    document.querySelector(".result").classList.remove("hide");
-    Array.prototype.forEach.call(document.querySelectorAll(".preview-image"), (el) => {
-      el.src = blobUrl;
-    });
+    Promise.all([
+      getOrientation(file),
+      testAutoRotation(),
+    ]).then(([ detected, nativelySupportRotation]) => {
+      const translation = Orientations[detected - 1];
 
-    getOrientation(file).then((v) => {
-      const nativelySupportRotation = document.querySelector("#feature-detection").naturalHeight === 2;
+      document.querySelector(".input").classList.add("hide");
+      document.querySelector(".result").classList.remove("hide");
+      Array.prototype.forEach.call(document.querySelectorAll(".preview-image"), (el) => {
+        el.src = blobUrl;
+      });
 
       document.querySelector("#result-text").innerHTML = [
         "Browser supports auto-rotation? " + (nativelySupportRotation ? "Yes" : "No"),
-        "Orientation: " + v.toString() + " - " + OrientationTexts[v - 1],
+        "Orientation: " + detected.toString() + " - " + translation.name,
       ].join("<br>");
 
       if (!nativelySupportRotation) {
         const rotatedImage = document.querySelector("#image-rotated");
-        rotatedImage.style.transform = OrientationTransforms[v - 1];
+        rotatedImage.style.transform = translation.transform;
       }
     }).catch((e) => {
       console.error(e);
     });
-
   }
 
   function reset() {
@@ -203,7 +237,7 @@
     rotatedImage.style.transform = null;
 
     Array.prototype.forEach.call(document.querySelectorAll("img"), (el) => {
-      el.src = "";
+      el.removeAttribute("src");
     });
   }
 </script>
