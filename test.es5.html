@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form>
+  <label>
+    Select file:
+    <input type="file" id="input" onchange="onFileChange(this.files)">
+  </label>
+</form>
+<p id="orientation"></p>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.auto.min.js"></script>
+<script type="text/javascript" src="browser.es5.js"></script>
+<script type="text/javascript">
+function onFileChange(files) {
+  var file, el;
+
+  if (files.length === 0) {
+    console.log("no files selected");
+    return;
+  }
+
+  file = files[0];
+  el = document.getElementById("orientation");
+  window.getOrientation.getOrientation(file).then(function (value) {
+    el.innerText = value.toString();
+    el = null;
+  }, function (e) {
+    el.innerText = e;
+    el = null;
+  });
+}
+</script>
+</body>
+</html>

@@ -9,9 +9,16 @@ addons:
     - google-chrome
     packages:
     - google-chrome-stable
+install:
+- curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
+- unzip BrowserStackLocal-linux-x64.zip
+- npx -p node-static static . --port=8080 > /dev/null &
+before_script:
+- ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
 script:
 - npm run lint
 - npm test
+- "node -e 'process.exitCode = process.version.startsWith(\'v10.\') ? 0 : 1;' && npm run test:browserstack"
 before_deploy:
 - npm run prepublishOnly
 deploy:
@@ -23,3 +30,7 @@ deploy:
   on:
     tags: true
     repo: mooyoul/get-orientation
+env:
+  global:
+  - secure: Ffzl0wHmps3udkFCKreTuB+KyHbiSvD1NwcpdauluqwHkdrki4N6GwDtJ0++IIeNtjMyaMQ0o5EfQ4A2Iyals2FQP5fM0JU+h9LUEmgN9IpsyhgZ1NTapPjk00XsaqCH3MwxaZkyBn36R3J2vaaHeDkhHyabbrSRXrwITr3H6Fl2JEDmOlyyERDcrbvJoiTMrJUHB/B70jSvymmk0qiCel0oHqC/fXh7PlBkrVDloR6i24gvYV3kMOqhJbtC0lU/5zPDiiSod4386xpb/Pdla5xtlYHy0/Oma8cZ2h/iilKW+A2DivgINX+rzmdJy2rYvE6e5aCTOLnHydlpWlYuyDWh+x6LqOdamoQ/R8m+sAxm9vt+PxZadcBrwvCkDHCPu/1vGk7xnB5sB29ab1bXVatsrI98iWe43m4eCUC8uG/s/0BL1Z0MyyeaO6BSoe5Lfstn6MMCqA2B/LNm9sB0zeNn53gnVbOzbj68pe1BjfOmPg4bS2V7jfgK9TYZPUr9iHmCXMs+OA1VR2QN6+DjXOmMAnOblKGZLSK5sH2pBC4n12I9+3tK3vyYOXkj9sNiaJTwdyjtQH8J4xgEDydtjSqkT/IhKWok7k44TedXzqvZo6jERsFaAPF3mvUmo9OiwkdbeGgo3S3W3zzc3cu9aXo8VhJfgw0Az1oFl9/N1vk=
+  - secure: moejyOCLli3khkrUAnzEj+aZedzP74SToTTMte2yPrMsRgr0kcSAIGR7pPqfgYg7pVY0KbB4+EdCemSKHL6hV8FYbRvd/Nw+lP3lj4rCV1ypr6kS6AGaCNu8os8tRehDjHDxIh+3tzaD31a/zlKzf0LcqNwqFUI//CfBliv51BBdjp7meXyO2x5KPkdpcEku5inCnloanb1KyzvBP/nMDGECqK+U2XIExODGo0SkpHMjDOlD0+fTD9rYaDHjoCAWj09zZSHpaeeQ2HUoSX7kDKjfejOSx1DA5kCdSIBQpDHcOi03nQkgwDY+5E2Azb8AhUXFlFA8ofVwEkqy0xIFmS1JFv2PhORT/ijh1IJ4K7OF0nXjqERwopwm+AYlnz6837SQicH0HFCXinjKmA5XylfgISLoqr5n7D8VSgrMFhW0wwprrVfsE+8DjTOKmpRRuM6giYz4AtVbBnvuZAk/9AOqCDzIz/2Ca4FXHFleNXpQaUp7rGjLZTtMyF34kmeq3dnzxROEgR/PXzqYOrvjtc1q4OIopOpKrlXLeK3uxDcAgJr9Z8Gr1QhZyhodcfWi7DU21SdrSYaiFz9A81CzRQPAdjMA4KHyQiFuAhs+PDdxceiAStLbQUfHqjbQ+JEKsUnMzNLfDKMAiphajWmAwmQJHX3bh2SOqnrneIOFUtk=
