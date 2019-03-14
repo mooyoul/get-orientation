@@ -25,7 +25,7 @@
   },
   "scripts": {
     "clean": "ls *.d.ts *.js *.map | grep -E '(index|base|stream-parser|browser)' | xargs rm -f",
-    "build": "npm run clean && tsc && rollup -c rollup.config.js",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js && rollup -c rollup.config.es5.js && cp browser.d.ts browser.es5.d.ts",
     "prepublishOnly": "npm run build",
     "pretest": "npm run clean && npm run build && npm run seed",
     "test": "npm run test:node && npm run test:browser",
