@@ -23,7 +23,9 @@ script:
     npx -p node-static static . --port=8080 > /dev/null &
     echo $! > $TMPDIR/node-static.pid
     sleep 10
+    npm run pretest
     npm run test:browserstack
+    npm run posttest
     test -e $TMPDIR/bs-local.pid && pkill -SIGINT -P $(cat $TMPDIR/bs-local.pid)
     test -e $TMPDIR/node-static.pid && pkill -SIGINT -P $(cat $TMPDIR/node-static.pid)
     rm -f $TMPDIR/bs-local.pid $TMPDIR/node-static.pid
