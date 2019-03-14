@@ -18,3 +18,5 @@ spec*
 *.test.*
 docs/
 fixtures/
+*.zip
+*.tgz

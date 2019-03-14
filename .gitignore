@@ -76,3 +76,5 @@ stream-parser.js.map
 browser*.d.ts
 browser*.js
 browser*.js.map
+*.zip
+*.tgz
