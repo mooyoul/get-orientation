@@ -6,6 +6,7 @@ import * as webdriver from "selenium-webdriver";
 import { FileDetector } from "selenium-webdriver/remote";
 
 const TARGET_BROWSERS = [
+  { name: "IE", version: "10.0" },
   { name: "IE", version: "11.0" },
   { name: "Firefox" },
   { name: "Chrome" },
