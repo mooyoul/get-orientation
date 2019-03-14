@@ -13,15 +13,20 @@ install:
 - curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
 - unzip browserstack-local.zip
 - npm i
-before_script:
-- ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
-- npx -p node-static static . --port=8080 > /dev/null &
 script:
 - npm run lint
 - npm test
 - |
   if node -e "process.exitCode = /^v10\./.test(process.version) ? 0 : 1"; then
+    ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
+    echo $! > $TMPDIR/bs-local.pid
+    npx -p node-static static . --port=8080 > /dev/null &
+    echo $! > $TMPDIR/node-static.pid
+    sleep 10
     npm run test:browserstack
+    test -e $TMPDIR/bs-local.pid && pkill -SIGINT -P $(cat $TMPDIR/bs-local.pid)
+    test -e $TMPDIR/node-static.pid && pkill -SIGINT -P $(cat $TMPDIR/node-static.pid)
+    rm -f $TMPDIR/bs-local.pid $TMPDIR/node-static.pid
   else
     echo "Skipping BrowserStack test"
   fi
