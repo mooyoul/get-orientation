@@ -12,13 +12,14 @@ addons:
 install:
 - curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
 - unzip browserstack-local.zip
-- npx -p node-static static . --port=8080 > /dev/null &
+- npm i
 before_script:
 - ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
+- npx -p node-static static . --port=8080 > /dev/null &
 script:
 - npm run lint
 - npm test
-- "node -e 'process.exitCode = process.version.startsWith(\'v10.\') ? 0 : 1;' && npm run test:browserstack"
+- "node -e 'process.exitCode = process.version.startsWith(\\'v10.\\') ? 0 : 1;' && npm run test:browserstack"
 before_deploy:
 - npm run prepublishOnly
 deploy:
