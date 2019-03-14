@@ -19,12 +19,12 @@ before_script:
 script:
 - npm run lint
 - npm test
-- if node -e "process.exitCode = /^v10\./.test(process.version) ? 0 : 1"; then
+- |
+  if node -e "process.exitCode = /^v10\./.test(process.version) ? 0 : 1"; then
     npm run test:browserstack
   else
     echo "Skipping BrowserStack test"
   fi
-- "node -e 'process.exitCode = process.version.startsWith(\\'v10.\\') ? 0 : 1;' && npm run test:browserstack"
 before_deploy:
 - npm run prepublishOnly
 deploy:
