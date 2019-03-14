@@ -1,9 +1,12 @@
 .idea
+base.ts
 index.ts
 test.ts
+browser.ts
+stream-parser.ts
 tsconfig*.json
 tslint.json
-rollup.config.js
+rollup.config*.js
 intern.json
 .travis.yml
 .nyc_output
