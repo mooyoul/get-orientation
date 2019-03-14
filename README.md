@@ -35,12 +35,55 @@ To rotate image by its orientation, you'll have to make a EXIF parser or install
 
 That's why i made this.           
 
+## Compatibility
+
+get-orientation works in major environments, including IE 10.
+
+#### Tested Platforms (Node.js) 
+
+Platform | Environment | Build | Compatibility 
+-------- | ----------- | ----- | -------------
+macOS Mojave | Node.js 4 | Default | Compatible
+macOS Mojave | Node.js 6 | Default | Compatible
+Linux Ubuntu Trusty | Node.js 6 | Default | Compatible
+macOS Mojave | Node.js 8 | Default | Compatible
+Linux Ubuntu Trusty | Node.js 10 | Default | Compatible
+macOS Mojave | Node.js 10 | Default | Compatible
+
+#### Tested Platforms (Browser)
+
+Platform | Environment | Build | Compatibility
+-------- | ----------- | ----- | -------------
+Windows XP/7 | ~ IE 9 | N/A | Incompatible due to missing FileReader/DataView support   
+Windows 7 | IE 10 | Browser/ES5 | Compatible, Requires Promise and WeakMap polyfill
+Windows 7| IE 11 | Browser/ES5 | Compatible, Requires Promise polyfill
+Windows 10 | IE 11 | Browser/ES5 | Compatible, Requires Promise polyfill
+macOS Mojave | Chrome 74 | Browser/ES6 (Default) | Compatible
+macOS Mojave | Safari | Browser/ES6 (Default) | Compatible
+macOS Mojave | Safari TP | Browser/ES6 (Default) | Compatible
+macOS Mojave | Firefox Developer Edition 67 | Browser/ES6 (Default) | Compatible
+macOS Mojave | Firefox 65 | Browser/ES6 (Default) | Compatible
+iOS 12.0.1 | Safari | Browser/ES6 (Default) | Compatible
+Android 5 | Mobile Chrome 74 | Browser/ES6 (Default) | Compatible
+
+
 ## Install
 
 #### from NPM
 
 ```bash
 $ npm install get-orientation
+```
+
+#### from unpkg
+
+```html
+<!-- ES6 Target Build (default) -->
+<script type="text/javascript" src="https://unpkg.com/get-orientation/browser"></script>
+
+<!-- ES5 Target Build (for Compat, requires Promise, WeakMap polyfill -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.6.5/core.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/get-orientation/browser.es5"></script>
 ```
 
 
@@ -88,13 +131,18 @@ fs.createReadStream(imageFilePath).pipe(parser);
 #### Browser
 
 ```javascript
-import { getOrientation } from "get-orientation";
+import { getOrientation } from "get-orientation/browser";
 
 async function onFileChanged() {
   const orientation = await getOrientation(fileInput.files[0]);
   // do stuff...
 }
 ```
+
+> *IMPORTANT NOTE*
+>
+> The ES5 target browser build does not include any Polyfills like Promise/A+.
+> For example, To use this library from Microsoft Internet Explorer 11, You'll have to polyfill Promise.
 
  
 ## API (Node.js)
