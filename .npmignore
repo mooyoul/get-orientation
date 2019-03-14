@@ -20,3 +20,4 @@ docs/
 fixtures/
 *.zip
 *.tgz
+BrowserStackLocal*
