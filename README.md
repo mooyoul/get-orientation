@@ -1,6 +1,7 @@
 # get-orientation
 
 [![Build Status](https://travis-ci.com/mooyoul/get-orientation.svg?branch=master)](https://travis-ci.com/mooyoul/get-orientation)
+[![BrowserStack Status](https://automate.browserstack.com/badge.svg?badge_key=cFNiUHduTHZpVVFDKzJCTVFhQUtyUFhJVXRlRDRCYU1UdTlvRVZVUmhnMD0tLWIxZ1hkRWxpNjVGL09uUzdnYlMydlE9PQ==--7b310907b4d628c5942ccc11899b8df415cb2393)](https://automate.browserstack.com/public-build/cFNiUHduTHZpVVFDKzJCTVFhQUtyUFhJVXRlRDRCYU1UdTlvRVZVUmhnMD0tLWIxZ1hkRWxpNjVGL09uUzdnYlMydlE9PQ==--7b310907b4d628c5942ccc11899b8df415cb2393)
 [![Semantic Release enabled](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/get-orientation.svg)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
