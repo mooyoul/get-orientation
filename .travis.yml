@@ -12,16 +12,14 @@ install:
 - curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
 - unzip browserstack-local.zip
 - npm ci
-
 stages:
-  - name: Lint
   - name: Test
   - name: Publish
     if: branch == master && repo == 'mooyoul/get-orientation'
-
 jobs:
   include:
-    - stage: Lint
+    - stage: Test
+      name: Lint
       script: npm run lint
     - stage: Test
       name: Unit Test
