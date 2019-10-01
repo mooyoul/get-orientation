@@ -21,3 +21,5 @@ fixtures/
 *.zip
 *.tgz
 BrowserStackLocal*
+.releaserc.json
+renovate.json
