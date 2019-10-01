@@ -14,5 +14,10 @@
       },
       "fixSessionCapabilities": false
     }
-  ]
+  ],
+  "tunnelOptions": {
+    "drivers": [
+      { "name": "chrome", "version": "77.0.3865.40" }
+    ]
+  }
 }
