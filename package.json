@@ -40,7 +40,7 @@
     "test:browser": "intern",
     "test:browserstack": "mocha -t 3600000 -r ts-node/register test.e2e.browserstack.ts",
     "posttest": "npm run clean",
-    "lint": "tslint -c tslint.json index.ts"
+    "lint": "tslint -c tslint.json '*.ts'"
   },
   "repository": {
     "type": "git",
