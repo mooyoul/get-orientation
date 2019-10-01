@@ -1,7 +1,9 @@
 # get-orientation
 
 [![Build Status](https://travis-ci.com/mooyoul/get-orientation.svg?branch=master)](https://travis-ci.com/mooyoul/get-orientation)
+[![Semantic Release enabled](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/get-orientation.svg)
+[![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 [![MIT license](http://img.shields.io/badge/license-MIT-blue.svg)](http://mooyoul.mit-license.org/)
 
 Get orientation from EXIF of image file. Supports both Browser and Server (Node.js) environment.
@@ -197,26 +199,7 @@ enum Orientation {
 
 ## Changelog
 
-#### 1.1.0
-
-- Added ES5 target Browser build
-- Added BrowserStack for testing compatibility
-
-
-#### 1.0.1
-
-- Added type guard for non-typescript environment
-
-
-#### 1.0.0
-
-- Fixed JPEG APP1 Marker Conflict issue
-- Support Browser Environment
-
-
-#### 0.1.0
-
-- Initial Release
+See [CHANGELOG](/CHANGELOG.md).
 
 
 ## Testing
