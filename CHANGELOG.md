@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/mooyoul/get-orientation/compare/v1.1.0...v1.1.1) (2019-10-01)
+
+
+### Bug Fixes
+
+* **release:** bump version ([13e8392](https://github.com/mooyoul/get-orientation/commit/13e8392))
+
 #### 1.1.0
 
 - Added ES5 target Browser build
