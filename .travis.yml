@@ -11,7 +11,7 @@ addons:
 install:
 - curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
 - unzip browserstack-local.zip
-- npm i
+- npm ci
 
 stages:
   - name: Lint
