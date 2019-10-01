@@ -14,6 +14,7 @@
     "@types/mocha": "^5.2.6",
     "@types/node": "^8.10.43",
     "@types/selenium-webdriver": "^3.0.15",
+    "@vingle/tslint-preset": "1.0.0",
     "browserstack-local": "^1.3.7",
     "chai": "^4.2.0",
     "intern": "^4.4.2",
