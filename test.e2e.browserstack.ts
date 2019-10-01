@@ -47,6 +47,7 @@ describe("get-image-orientation", () => {
         driver = new webdriver.Builder()
           .usingServer("http://hub-cloud.browserstack.com/wd/hub")
           .withCapabilities({
+            "project": "get-orientation",
             "browserName": browser.name,
             "browser_version": browser.version,
             "resolution" : "1024x768",
