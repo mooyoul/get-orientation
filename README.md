@@ -209,6 +209,10 @@ $ npm run test
 ```
 
 
+[![BrowserStack Logo](/docs/browserstack.png)](https://www.browserstack.com/)
+
+get-orientation uses [BrowserStack](https://www.browserstack.com/) for compatibility testing.
+
 ## Build
 
 ```bash
