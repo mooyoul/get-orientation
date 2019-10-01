@@ -14,9 +14,11 @@
     "@types/mocha": "^5.2.6",
     "@types/node": "^8.10.43",
     "@types/selenium-webdriver": "^3.0.15",
+    "@vingle/commitlint-preset": "1.0.3",
     "@vingle/tslint-preset": "1.0.0",
     "browserstack-local": "^1.3.7",
     "chai": "^4.2.0",
+    "husky": "3.0.7",
     "intern": "^4.4.2",
     "mocha": "^6.0.2",
     "rollup": "^1.6.0",
@@ -57,5 +59,20 @@
   "bugs": {
     "url": "https://github.com/mooyoul/get-orientation/issues"
   },
-  "homepage": "https://github.com/mooyoul/get-orientation#readme"
+  "homepage": "https://github.com/mooyoul/get-orientation#readme",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@vingle/commitlint-preset"
+    ]
+  }
 }
