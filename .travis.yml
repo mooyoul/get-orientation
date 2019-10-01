@@ -1,8 +1,7 @@
 dist: trusty
 language: node_js
 node_js:
-- '8'
-- '10'
+- lts/*
 addons:
   apt:
     sources:
@@ -13,34 +12,39 @@ install:
 - curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
 - unzip browserstack-local.zip
 - npm i
-script:
-- npm run lint
-- npm test
-- |
-  if node -e "process.exitCode = /^v10\./.test(process.version) ? 0 : 1"; then
-    ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
-    echo $! > $TMPDIR/bs-local.pid
-    npx -p node-static static . --port=8080 > /dev/null &
-    echo $! > $TMPDIR/node-static.pid
-    sleep 10
-    npm run pretest
-    npm run test:browserstack
-    npm run posttest
-    test -e $TMPDIR/bs-local.pid && pkill -SIGINT -P $(cat $TMPDIR/bs-local.pid)
-    test -e $TMPDIR/node-static.pid && pkill -SIGINT -P $(cat $TMPDIR/node-static.pid)
-    rm -f $TMPDIR/bs-local.pid $TMPDIR/node-static.pid
-  else
-    echo "Skipping BrowserStack test"
-  fi
-before_deploy:
-- npm run prepublishOnly
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: npx semantic-release
-  on:
-    tags: true
-    repo: mooyoul/get-orientation
+
+stages:
+  - name: Lint
+  - name: Test
+  - name: Publish
+    if: branch == master && repo == 'mooyoul/get-orientation'
+
+jobs:
+  include:
+    - stage: Lint
+      script: npm run lint
+    - stage: Test
+      name: Unit Test
+      script: npm test
+    - stage: Test
+      name: E2E Test
+      node_js: lts/carbon
+      script: |
+        ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
+        echo $! > $TMPDIR/bs-local.pid
+        npx -p node-static static . --port=8080 > /dev/null &
+        echo $! > $TMPDIR/node-static.pid
+        sleep 10
+        npm run pretest
+        npm run test:browserstack
+        npm run posttest
+        test -e $TMPDIR/bs-local.pid && pkill -SIGINT -P $(cat $TMPDIR/bs-local.pid)
+        test -e $TMPDIR/node-static.pid && pkill -SIGINT -P $(cat $TMPDIR/node-static.pid)
+        rm -f $TMPDIR/bs-local.pid $TMPDIR/node-static.pid
+    - stage: Publish
+      node_js: lts/carbon
+      script: npx semantic-release
+
 env:
   global:
   - secure: Ffzl0wHmps3udkFCKreTuB+KyHbiSvD1NwcpdauluqwHkdrki4N6GwDtJ0++IIeNtjMyaMQ0o5EfQ4A2Iyals2FQP5fM0JU+h9LUEmgN9IpsyhgZ1NTapPjk00XsaqCH3MwxaZkyBn36R3J2vaaHeDkhHyabbrSRXrwITr3H6Fl2JEDmOlyyERDcrbvJoiTMrJUHB/B70jSvymmk0qiCel0oHqC/fXh7PlBkrVDloR6i24gvYV3kMOqhJbtC0lU/5zPDiiSod4386xpb/Pdla5xtlYHy0/Oma8cZ2h/iilKW+A2DivgINX+rzmdJy2rYvE6e5aCTOLnHydlpWlYuyDWh+x6LqOdamoQ/R8m+sAxm9vt+PxZadcBrwvCkDHCPu/1vGk7xnB5sB29ab1bXVatsrI98iWe43m4eCUC8uG/s/0BL1Z0MyyeaO6BSoe5Lfstn6MMCqA2B/LNm9sB0zeNn53gnVbOzbj68pe1BjfOmPg4bS2V7jfgK9TYZPUr9iHmCXMs+OA1VR2QN6+DjXOmMAnOblKGZLSK5sH2pBC4n12I9+3tK3vyYOXkj9sNiaJTwdyjtQH8J4xgEDydtjSqkT/IhKWok7k44TedXzqvZo6jERsFaAPF3mvUmo9OiwkdbeGgo3S3W3zzc3cu9aXo8VhJfgw0Az1oFl9/N1vk=
