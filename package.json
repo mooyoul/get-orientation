@@ -13,7 +13,7 @@
     "@types/debug": "4.1.5",
     "@types/mocha": "5.2.7",
     "@types/node": "8.10.54",
-    "@types/selenium-webdriver": "4.0.3",
+    "@types/selenium-webdriver": "4.0.5",
     "@vingle/commitlint-preset": "1.0.3",
     "@vingle/semantic-release-config": "1.0.3",
     "@vingle/tslint-preset": "1.0.0",
