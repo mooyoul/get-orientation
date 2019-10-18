@@ -21,7 +21,7 @@
     "chai": "4.2.0",
     "husky": "3.0.9",
     "intern": "4.5.0",
-    "mocha": "6.2.1",
+    "mocha": "6.2.2",
     "rollup": "1.25.0",
     "rollup-plugin-typescript2": "0.24.3",
     "selenium-webdriver": "4.0.0-alpha.5",
