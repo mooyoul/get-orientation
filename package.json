@@ -23,7 +23,7 @@
     "intern": "4.5.0",
     "mocha": "6.2.2",
     "rollup": "1.26.3",
-    "rollup-plugin-typescript2": "0.24.3",
+    "rollup-plugin-typescript2": "0.25.2",
     "selenium-webdriver": "4.0.0-alpha.5",
     "ts-node": "8.4.1",
     "tslint": "5.20.0",
