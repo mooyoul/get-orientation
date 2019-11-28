@@ -25,7 +25,7 @@
     "rollup": "1.27.5",
     "rollup-plugin-typescript2": "0.25.2",
     "selenium-webdriver": "4.0.0-alpha.5",
-    "ts-node": "8.5.3",
+    "ts-node": "8.5.4",
     "tslint": "5.20.1",
     "typescript": "3.7.2"
   },
