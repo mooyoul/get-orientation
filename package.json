@@ -9,7 +9,7 @@
     "stream-parser": "^0.3.1"
   },
   "devDependencies": {
-    "@types/chai": "4.2.5",
+    "@types/chai": "4.2.6",
     "@types/debug": "4.1.5",
     "@types/mocha": "5.2.7",
     "@types/node": "8.10.59",
