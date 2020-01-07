@@ -17,7 +17,7 @@
     "@vingle/commitlint-preset": "1.0.3",
     "@vingle/semantic-release-config": "1.0.3",
     "@vingle/tslint-preset": "1.0.0",
-    "browserstack-local": "1.4.2",
+    "browserstack-local": "1.4.3",
     "chai": "4.2.0",
     "husky": "3.1.0",
     "intern": "4.7.0",
