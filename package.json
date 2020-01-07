@@ -20,7 +20,7 @@
     "browserstack-local": "1.4.2",
     "chai": "4.2.0",
     "husky": "3.1.0",
-    "intern": "4.7.0",
+    "intern": "4.7.1",
     "mocha": "6.2.2",
     "rollup": "1.27.9",
     "rollup-plugin-typescript2": "0.25.3",
