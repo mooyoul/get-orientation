@@ -16,7 +16,7 @@
     "@types/selenium-webdriver": "4.0.6",
     "@vingle/commitlint-preset": "1.0.3",
     "@vingle/semantic-release-config": "1.0.5",
-    "@vingle/tslint-preset": "1.0.0",
+    "@vingle/tslint-preset": "1.0.1",
     "browserstack-local": "1.4.3",
     "chai": "4.2.0",
     "husky": "3.1.0",
