@@ -1,6 +1,6 @@
 {
   "extends": [
-    "@vingle",
-    "@vingle:semantic-commit"
+    "@prescott",
+    "@prescott:semantic-commit"
   ]
 }
