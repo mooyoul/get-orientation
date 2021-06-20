@@ -16,7 +16,7 @@ Also, Compatibility is the key. `get-orientation` was tested with 50+ test image
 
 ## Sponsor
 
-- [Vingle](https://www.vingle.net) - Vingle, Very Community. Love the things that you love. - [We're hiring!](https://careers.vingle.net/#/engineering/backend)
+- [CATCH](https://www.catchfashion.com/) - 캐치패션 - 세상 쉬운 명품 직구 - [We're hiring!](https://www.wanted.co.kr/company/2378)
 
 ## Demo
 
