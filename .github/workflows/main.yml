@@ -1,0 +1,47 @@
+name: workflow
+on: [push, pull_request]
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      - name: Prepare
+        run: |
+          env CHROMEDRIVER_FILEPATH=$CHROMEWEBDRIVER/chromedriver npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Build
+        run: npm run build
+      - name: Test
+        run: npm test
+      - name: E2E Test (BrowserStack)
+        run: |
+          curl -o browserstack-local.zip https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip
+          unzip browserstack-local.zip
+          ./BrowserStackLocal -k $BROWSERSTACK_ACCESS_KEY &
+          export BS_TMPDIR=$(mktemp -d)
+          echo $! > $BS_TMPDIR/bs-local.pid
+          npx -p node-static static . --port=8080 > /dev/null &
+          echo $! > $BS_TMPDIR/node-static.pid
+          sleep 10
+          npm run pretest
+          npm run test:browserstack
+          npm run posttest
+          test -e $BS_TMPDIR/bs-local.pid && pkill -SIGINT -P $(cat $BS_TMPDIR/bs-local.pid)
+          test -e $BS_TMPDIR/node-static.pid && pkill -SIGINT -P $(cat $BS_TMPDIR/node-static.pid)
+          rm -f $BS_TMPDIR/bs-local.pid $BS_TMPDIR/node-static.pid
+
+          npm run test:browserstack
+        env:
+          BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+          BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      - name: Publish
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: npx semantic-release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
