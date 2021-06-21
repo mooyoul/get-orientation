@@ -1,18 +1,12 @@
 {
+    "extends": "./tsconfig.browser.json",
     "compilerOptions": {
         "module": "es2015",
         "target": "es5",
-        "noImplicitAny": true,
-        "declaration": true,
-        "sourceMap": true,
-        "strictNullChecks": true,
-        "lib": [
-            "dom",
-            "es2015"
-        ]
+        "outDir": "."
     },
-    "include": [
+    "files": [
         "base.ts",
-        "browser.ts"
+        "browser.es5.ts"
     ]
 }
