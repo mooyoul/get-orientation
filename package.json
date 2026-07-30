@@ -20,7 +20,7 @@
     "@types/mocha": "8.2.2",
     "@types/node": "12.20.15",
     "@types/selenium-webdriver": "4.0.14",
-    "browserstack-local": "1.4.8",
+    "browserstack-local": "1.5.9",
     "chai": "4.3.4",
     "husky": "6.0.0",
     "intern": "4.9.1",
